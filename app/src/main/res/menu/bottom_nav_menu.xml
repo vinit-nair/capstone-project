@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@mipmap/ic_home_circle_outline_256x256"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/navigation_transactions"
+        android:icon="@mipmap/ic_bank_transfer_256x204"
+        android:title="@string/transactions" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@mipmap/ic_profile_circle_256x255"
+        android:title="@string/profile" />
+</menu> 
