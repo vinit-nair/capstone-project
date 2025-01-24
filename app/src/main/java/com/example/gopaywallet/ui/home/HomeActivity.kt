@@ -14,6 +14,7 @@ import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.data.repository.TransactionRepository
 import com.example.gopaywallet.databinding.ActivityHomeBinding
 import com.example.gopaywallet.di.NetworkModule
+import com.example.gopaywallet.ui.rewards.RewardsFragment
 import com.example.gopaywallet.utils.showToast
 import com.example.gopaywallet.ui.transactions.CreateTransactionActivity
 import com.example.gopaywallet.ui.transactions.TransactionsFragment
@@ -66,6 +67,24 @@ class HomeActivity : AppCompatActivity() {
                     var fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
                     if (fragment == null) {
                         fragment = TransactionsFragment()
+                        supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                            .add(R.id.fragmentContainer, fragment)
+                            .commit()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                            .show(fragment)
+                            .commit()
+                    }
+                    true
+                }
+                R.id.navigation_rewards -> {
+                    binding.contentContainer.visibility = View.GONE
+                    binding.fragmentContainer.visibility = View.VISIBLE
+                    var fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                    if (fragment == null) {
+                        fragment = RewardsFragment()
                         supportFragmentManager.beginTransaction()
                             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                             .add(R.id.fragmentContainer, fragment)

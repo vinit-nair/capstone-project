@@ -8,6 +8,12 @@
         android:id="@+id/navigation_transactions"
         android:icon="@mipmap/ic_bank_transfer_256x204"
         android:title="@string/transactions" />
+
+    <item
+        android:id="@+id/navigation_rewards"
+        android:icon="@mipmap/ic_rewards_256x255"
+        android:title="@string/rewards" />
+
     <item
         android:id="@+id/navigation_profile"
         android:icon="@mipmap/ic_profile_circle_256x255"

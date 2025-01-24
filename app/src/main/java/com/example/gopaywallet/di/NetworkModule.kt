@@ -2,6 +2,7 @@ package com.example.gopaywallet.di
 
 import android.annotation.SuppressLint
 import com.example.gopaywallet.data.api.AuthApi
+import com.example.gopaywallet.data.api.RewardsApi
 import com.example.gopaywallet.data.api.TransactionApi
 import com.example.gopaywallet.utils.LocalDateTimeAdapter
 import com.google.gson.GsonBuilder
@@ -52,4 +53,5 @@ object NetworkModule {
 
     val authApi: AuthApi = retrofit.create(AuthApi::class.java)
     val transactionApi: TransactionApi = retrofit.create(TransactionApi::class.java)
+    val rewardsApi: RewardsApi = retrofit.create(RewardsApi::class.java)
 } 
