@@ -10,8 +10,11 @@ import com.example.gopaywallet.data.model.TransactionType
 import com.example.gopaywallet.data.repository.TransactionRepository
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
-class CreateTransactionViewModel(
+@HiltViewModel
+class CreateTransactionViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository
 ) : ViewModel() {
 

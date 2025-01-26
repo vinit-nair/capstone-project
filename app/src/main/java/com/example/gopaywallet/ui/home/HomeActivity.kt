@@ -18,13 +18,13 @@ import com.example.gopaywallet.di.NetworkModule
 import com.example.gopaywallet.utils.showToast
 import com.example.gopaywallet.ui.transactions.CreateTransactionActivity
 import com.example.gopaywallet.ui.transactions.TransactionsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-    private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(SessionManager(this))
-    }
+    private val viewModel: HomeViewModel by viewModels()
     private val transactionAdapter = TransactionAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {

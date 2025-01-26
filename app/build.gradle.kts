@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -74,5 +75,16 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Fragment KTX for viewModels() delegate
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    
+    // Fragment
     implementation("androidx.fragment:fragment-ktx:1.6.2")
 }

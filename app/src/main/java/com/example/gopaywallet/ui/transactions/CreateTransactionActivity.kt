@@ -15,14 +15,14 @@ import com.example.gopaywallet.utils.showToast
 import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.ui.auth.LoginActivity
 import com.example.gopaywallet.ui.home.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreateTransactionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateTransactionBinding
     private lateinit var sessionManager: SessionManager
     
-    private val viewModel: CreateTransactionViewModel by viewModels {
-        CreateTransactionViewModelFactory(SessionManager(this))
-    }
+    private val viewModel: CreateTransactionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

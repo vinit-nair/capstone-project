@@ -8,8 +8,11 @@ import com.example.gopaywallet.data.model.Transaction
 import com.example.gopaywallet.data.repository.TransactionRepository
 import com.example.gopaywallet.data.SessionManager
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
-class TransactionsViewModel(
+@HiltViewModel
+class TransactionsViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository,
     private val sessionManager: SessionManager
 ) : ViewModel() {

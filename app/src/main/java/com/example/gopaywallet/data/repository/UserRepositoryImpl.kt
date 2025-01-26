@@ -6,8 +6,15 @@ import com.example.gopaywallet.data.model.LoginRequest
 import com.example.gopaywallet.data.model.RegisterRequest
 import com.example.gopaywallet.data.model.User
 import com.example.gopaywallet.data.model.LoginResponse
+import com.example.gopaywallet.data.model.ForgotPasswordRequest
+import com.example.gopaywallet.data.model.ForgotPasswordResponse
+import com.example.gopaywallet.data.model.VerifyOtpRequest
+import com.example.gopaywallet.data.model.ResetPasswordRequest
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepositoryImpl(private val authApi: AuthApi) : UserRepository {
+@Singleton
+class UserRepositoryImpl @Inject constructor(private val authApi: AuthApi) : UserRepository {
 
     override suspend fun login(email: String, password: String): LoginResponse {
         try {
@@ -32,8 +39,8 @@ class UserRepositoryImpl(private val authApi: AuthApi) : UserRepository {
         return response.user
     }
 
-    override suspend fun resetPassword(email: String) {
-        authApi.forgotPassword(email)
+    override suspend fun resetPassword(email: String, otp: String, newPassword: String) {
+        authApi.resetPassword(ResetPasswordRequest(email, otp, newPassword))
     }
 
     override suspend fun getCurrentUser(): User {
@@ -49,5 +56,22 @@ class UserRepositoryImpl(private val authApi: AuthApi) : UserRepository {
     private fun saveAuthToken(token: String) {
         // Implement token storage (e.g., in SharedPreferences)
         // This should be done securely, possibly using EncryptedSharedPreferences
+    }
+
+    override suspend fun forgotPassword(email: String): ForgotPasswordResponse {
+        try {
+            return authApi.forgotPassword(ForgotPasswordRequest(email))
+        } catch (e: retrofit2.HttpException) {
+            when (e.code()) {
+                400 -> throw Exception("Email not registered")
+                else -> throw Exception("Failed to send reset email")
+            }
+        } catch (e: Exception) {
+            throw Exception(e.message ?: "Failed to send reset email")
+        }
+    }
+
+    override suspend fun verifyOtp(email: String, otp: String) {
+        authApi.verifyOtp(VerifyOtpRequest(email, otp))
     }
 } 

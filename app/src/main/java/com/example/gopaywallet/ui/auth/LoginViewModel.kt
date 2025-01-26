@@ -7,10 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gopaywallet.data.model.User
 import com.example.gopaywallet.data.repository.UserRepository
-
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult

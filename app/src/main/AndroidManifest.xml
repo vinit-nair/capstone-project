@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".GoPayWalletApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -50,6 +51,15 @@
             android:name=".ui.transactions.CreateTransactionActivity"
             android:exported="false"
             android:label="@string/create_transaction" />
+        <activity
+            android:name=".ui.auth.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.VerifyOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.ResetPasswordActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

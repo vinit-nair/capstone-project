@@ -7,11 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.data.model.Transaction
 import com.example.gopaywallet.data.repository.TransactionRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository,
     private val sessionManager: SessionManager
 ) : ViewModel() {

@@ -14,23 +14,16 @@ import com.example.gopaywallet.data.repository.UserRepositoryImpl
 import com.example.gopaywallet.utils.showToast
 import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.ui.home.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistrationBinding
     private lateinit var sessionManager: SessionManager
     
-    private val viewModel: RegistrationViewModel by viewModels {
-        RegistrationViewModelFactory(
-            UserRepositoryImpl(NetworkModule.authApi)
-        )
-    }
-
-    private val loginViewModel: LoginViewModel by viewModels {
-        LoginViewModelFactory(
-            UserRepositoryImpl(NetworkModule.authApi)
-        )
-    }
+    private val viewModel: RegistrationViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
