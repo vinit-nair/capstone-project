@@ -39,10 +39,8 @@ class HomeViewModel(
             try {
                 _isLoading.value = true
                 val userId = sessionManager.getUserId()
-                println("Loading transactions for user: $userId")
                 val result = transactionRepository.getUserTransactions(userId, 0, 5)
-                println("Loaded ${result.size} transactions")
-                _transactions.value = result
+                _transactions.value = result.sortedByDescending { it.dateTime }
             } catch (e: Exception) {
                 println("Error loading transactions: ${e.message}")
                 e.printStackTrace()

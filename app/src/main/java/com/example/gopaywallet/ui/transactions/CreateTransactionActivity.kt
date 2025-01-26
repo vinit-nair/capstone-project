@@ -40,8 +40,10 @@ class CreateTransactionActivity : AppCompatActivity() {
         viewModel.transactionResult.observe(this) { result ->
             result.onSuccess { transaction ->
                 showToast("Transaction successful")
-                // Return to previous screen with refresh flag
-                setResult(RESULT_OK)
+                val intent = Intent().apply {
+                    putExtra("REFRESH_TRANSACTIONS", true)
+                }
+                setResult(RESULT_OK, intent)
                 finish()
             }.onFailure { exception ->
                 showToast(exception.message ?: "Transaction failed")

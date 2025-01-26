@@ -115,4 +115,8 @@ class TransactionsFragment : Fragment() {
         println("TransactionsFragment: onResume")
         viewModel.refreshTransactions()
     }
+
+    fun refreshTransactions() {
+        viewModel.refreshTransactions()
+    }
 } 

@@ -1,5 +1,6 @@
 package com.example.gopaywallet.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -147,16 +148,20 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (intent.getBooleanExtra("REFRESH_TRANSACTIONS", false)) {
-            viewModel.refreshTransactions()
-            intent.removeExtra("REFRESH_TRANSACTIONS")
-        }
+        viewModel.refreshTransactions()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CreateTransactionActivity.REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == CreateTransactionActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             viewModel.refreshTransactions()
+            
+            // Also refresh the transactions fragment if it's visible
+            supportFragmentManager.findFragmentById(R.id.fragmentContainer)?.let { fragment ->
+                if (fragment is TransactionsFragment && fragment.isVisible) {
+                    fragment.refreshTransactions()
+                }
+            }
         }
     }
 } 

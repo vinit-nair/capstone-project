@@ -14,7 +14,8 @@ import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 object NetworkModule {
-    private const val BASE_URL = "http://10.0.2.2:8080/" // Replace with your computer's IP address
+    // 10.0.2.2 is the special IP for localhost on Android Emulator
+    private const val BASE_URL = "http://10.0.2.2:8081/"
 
     @SuppressLint("NewApi")
     private val gson = GsonBuilder()
@@ -39,9 +40,10 @@ object NetworkModule {
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(authInterceptor)
         .addInterceptor(loggingInterceptor)
-        .connectTimeout(60, TimeUnit.SECONDS)
-        .readTimeout(60, TimeUnit.SECONDS)
-        .writeTimeout(60, TimeUnit.SECONDS)
+        .connectTimeout(30, TimeUnit.SECONDS)  // Reduced timeout
+        .readTimeout(30, TimeUnit.SECONDS)     // Reduced timeout
+        .writeTimeout(30, TimeUnit.SECONDS)    // Reduced timeout
+        .retryOnConnectionFailure(true)       // Enable retries
         .build()
 
     private val retrofit = Retrofit.Builder()
