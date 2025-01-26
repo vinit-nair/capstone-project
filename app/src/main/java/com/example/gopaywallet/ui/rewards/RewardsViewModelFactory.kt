@@ -11,7 +11,7 @@ class RewardsViewModelFactory(
     private val sessionManager: SessionManager
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(RewardsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return RewardsViewModel(
                 RewardsRepository(

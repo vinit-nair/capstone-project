@@ -15,7 +15,6 @@ class RewardsViewModel(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-
     private val _rewards = MutableLiveData<Rewards>()
     val rewards: LiveData<Rewards> = _rewards
 
@@ -26,25 +25,19 @@ class RewardsViewModel(
     val error: LiveData<String> = _error
 
     init {
-        loadRewards(refresh = true)
+        loadRewards()
     }
 
-    private fun loadRewards(refresh: Boolean = false) {
+    private fun loadRewards() {
         viewModelScope.launch {
-            try {
-                _isLoading.value = true
-                val userId = sessionManager.getUserId()
-                println("Loading transactions for user: $userId")
-                val newRewards = rewardsRepository.getUserRewards(userId)
-                println("Received rewards: ${newRewards}")
-                _rewards.value = newRewards
-            } catch (e: Exception) {
-                println("Error in ViewModel: ${e.message}")
-                e.printStackTrace()
-                _error.value = e.message ?: "Failed to load transactions"
-            } finally {
-                _isLoading.value = false
-            }
+            _isLoading.value = true
+            val userId = sessionManager.getUserId()
+            println("Loading rewards for user: $userId")
+            val newRewards = rewardsRepository.getUserRewards(userId)
+            println("Received rewards: ${newRewards}")
+            _rewards.value = newRewards
+            _isLoading.value = false
         }
     }
+
 }

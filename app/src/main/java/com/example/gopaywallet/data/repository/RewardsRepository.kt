@@ -19,7 +19,6 @@ class RewardsRepository (
             token = token.toString(),
             currentUserId = currentUserId
         )
-        println("Received transactions: ${response.rewards.size}")
         return response
     }
 }

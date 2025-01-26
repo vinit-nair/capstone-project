@@ -4,5 +4,5 @@ import java.math.BigDecimal
 
 data class Rewards(
     val points: BigDecimal,
-    val rewards: Array<String?>
+    val rewardsList: List<String?>
 )

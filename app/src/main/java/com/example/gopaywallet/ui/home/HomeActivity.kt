@@ -80,6 +80,7 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_rewards -> {
+                    // Rewards fragment
                     binding.contentContainer.visibility = View.GONE
                     binding.fragmentContainer.visibility = View.VISIBLE
                     var fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
