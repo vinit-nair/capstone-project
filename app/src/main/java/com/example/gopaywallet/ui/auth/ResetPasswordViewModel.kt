@@ -1,5 +1,6 @@
 package com.example.gopaywallet.ui.auth
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,8 @@ class ResetPasswordViewModel @Inject constructor(
     fun resetPassword() {
         val newPass = newPassword.value
         val confirmPass = confirmPassword.value
+        val emailValue = email.value
+        val otpValue = otp.value
 
         if (newPass.isNullOrBlank() || confirmPass.isNullOrBlank()) {
             _resetPasswordResult.value = ResetPasswordResult.Error("Please fill all fields")
@@ -39,12 +42,20 @@ class ResetPasswordViewModel @Inject constructor(
             return
         }
 
+        if (!isPasswordValid(newPass)) {
+            _resetPasswordResult.value = ResetPasswordResult.Error(
+                "Password must be at least 8 characters long and contain at least one uppercase letter, " +
+                "one lowercase letter, one number, and one special character"
+            )
+            return
+        }
+
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 userRepository.resetPassword(
-                    email = email.value ?: "",
-                    otp = otp.value ?: "",
+                    email = emailValue ?: "",
+                    otp = otpValue ?: "",
                     newPassword = newPass
                 )
                 _resetPasswordResult.value = ResetPasswordResult.Success
@@ -56,6 +67,11 @@ class ResetPasswordViewModel @Inject constructor(
                 _isLoading.value = false
             }
         }
+    }
+
+    private fun isPasswordValid(password: String): Boolean {
+        val passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"
+        return password.matches(passwordPattern.toRegex())
     }
 }
 

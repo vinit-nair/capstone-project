@@ -36,7 +36,12 @@ class VerifyOtpViewModel @Inject constructor(
                 userRepository.verifyOtp(email.value ?: "", otpValue)
                 _verificationResult.value = VerifyOtpResult.Success
             } catch (e: Exception) {
-                _verificationResult.value = VerifyOtpResult.Error(e.message ?: "Failed to verify OTP")
+                val errorMessage = when (e.message) {
+                    "INVALID_OTP" -> "Invalid OTP"
+                    "OTP_EXPIRED" -> "OTP has expired"
+                    else -> e.message ?: "Failed to verify OTP"
+                }
+                _verificationResult.value = VerifyOtpResult.Error(errorMessage)
             } finally {
                 _isLoading.value = false
             }

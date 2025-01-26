@@ -40,7 +40,16 @@ class UserRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Use
     }
 
     override suspend fun resetPassword(email: String, otp: String, newPassword: String) {
-        authApi.resetPassword(ResetPasswordRequest(email, otp, newPassword))
+        try {
+            authApi.resetPassword(ResetPasswordRequest(email, otp, newPassword))
+        } catch (e: retrofit2.HttpException) {
+            when (e.code()) {
+                400 -> throw Exception("Invalid or expired OTP")
+                else -> throw Exception("Failed to reset password")
+            }
+        } catch (e: Exception) {
+            throw Exception(e.message ?: "Failed to reset password")
+        }
     }
 
     override suspend fun getCurrentUser(): User {
@@ -72,6 +81,16 @@ class UserRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Use
     }
 
     override suspend fun verifyOtp(email: String, otp: String) {
-        authApi.verifyOtp(VerifyOtpRequest(email, otp))
+        try {
+            authApi.verifyOtp(VerifyOtpRequest(email, otp))
+        } catch (e: retrofit2.HttpException) {
+            when (e.code()) {
+                400 -> throw Exception("INVALID_OTP")
+                410 -> throw Exception("OTP_EXPIRED")
+                else -> throw Exception("Failed to verify OTP")
+            }
+        } catch (e: Exception) {
+            throw Exception(e.message ?: "Failed to verify OTP")
+        }
     }
 } 

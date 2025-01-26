@@ -1,6 +1,8 @@
 package com.example.gopaywallet.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -22,8 +24,14 @@ class ResetPasswordActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         // Get email and OTP from intent
-        intent.getStringExtra("email")?.let { viewModel.email.value = it }
-        intent.getStringExtra("otp")?.let { viewModel.otp.value = it }
+        intent.getStringExtra("email")?.let { 
+            viewModel.email.value = it
+            Log.d("ResetPasswordActivity", "Email received: $it")
+        }
+        intent.getStringExtra("otp")?.let { 
+            viewModel.otp.value = it
+            Log.d("ResetPasswordActivity", "OTP received: $it")
+        }
 
         setupClickListeners()
         setupObservers()
@@ -31,6 +39,9 @@ class ResetPasswordActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.btnResetPassword.setOnClickListener {
+            Log.d("ResetPasswordActivity", "Reset button clicked")
+            binding.passwordLayout.error = null
+            binding.confirmPasswordLayout.error = null
             viewModel.resetPassword()
         }
     }
@@ -40,10 +51,19 @@ class ResetPasswordActivity : AppCompatActivity() {
             when (result) {
                 is ResetPasswordResult.Success -> {
                     showToast("Password reset successful")
-                    finish()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finishAffinity()
                 }
                 is ResetPasswordResult.Error -> {
-                    showToast(result.message)
+                    when {
+                        result.message.contains("match") -> {
+                            binding.confirmPasswordLayout.error = result.message
+                        }
+                        result.message.contains("Password must be") -> {
+                            binding.passwordLayout.error = result.message
+                        }
+                        else -> showToast(result.message)
+                    }
                 }
             }
         }

@@ -34,13 +34,3 @@ interface AuthApi {
     @POST("auth/reset-password")
     suspend fun resetPassword(@Body request: ResetPasswordRequest): BaseResponse
 }
-
-data class ForgotPasswordRequest(
-    val email: String
-)
-
-data class ForgotPasswordResponse(
-    val success: Boolean,
-    val message: String,
-    val otpSent: Boolean = false
-) 
