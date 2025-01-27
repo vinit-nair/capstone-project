@@ -13,7 +13,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
-class RegistrationViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
+class RegistrationViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val sessionManager: SessionManager
+) : ViewModel() {
 
     private val _registrationResult = MutableLiveData<RegistrationResult>()
     val registrationResult: LiveData<RegistrationResult> = _registrationResult
@@ -58,6 +61,7 @@ class RegistrationViewModel @Inject constructor(private val userRepository: User
                     phoneNumberValue,
                     passwordValue
                 )
+                sessionManager.saveUserId(user.id)
                 _registrationResult.value = RegistrationResult.Success(user)
                 _registrationState.value = RegistrationState.Success
             } catch (e: Exception) {
