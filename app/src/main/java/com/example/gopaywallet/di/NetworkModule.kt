@@ -21,6 +21,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import android.content.Context
 import com.example.gopaywallet.data.SessionManager
+import com.example.gopaywallet.data.api.RewardsApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import com.example.gopaywallet.data.repository.UserRepository
 import com.example.gopaywallet.data.repository.UserRepositoryImpl
@@ -88,7 +89,23 @@ object NetworkModule {
         return SessionManager(context)
     }
 
-    val authApi: AuthApi = retrofit.create(AuthApi::class.java)
-    val transactionApi: TransactionApi = retrofit.create(TransactionApi::class.java)
-    val rewardsApi: RewardsApi = retrofit.create(RewardsApi::class.java)
-} 
+    @Provides
+    @Singleton
+    fun provideTransactionRepository(
+        transactionApi: TransactionApi,
+        sessionManager: SessionManager
+    ): TransactionRepository {
+        return TransactionRepositoryImpl(transactionApi, sessionManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        authApi: AuthApi,
+        sessionManager: SessionManager
+    ): UserRepository {
+        return UserRepositoryImpl(authApi)
+    }
+
+    val rewardsApi: RewardsApi = provideRetrofit().create(RewardsApi::class.java)
+}
