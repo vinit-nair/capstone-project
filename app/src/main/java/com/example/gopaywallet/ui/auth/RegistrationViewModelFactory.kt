@@ -1,3 +1,4 @@
+/*
 package com.example.gopaywallet.ui.auth
 
 import androidx.lifecycle.ViewModel
@@ -14,4 +15,4 @@ class RegistrationViewModelFactory(
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
-} 
+} */
