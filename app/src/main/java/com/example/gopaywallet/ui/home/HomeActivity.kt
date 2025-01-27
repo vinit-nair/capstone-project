@@ -67,15 +67,14 @@ class HomeActivity : AppCompatActivity() {
                     binding.fragmentContainer.visibility = View.VISIBLE
                     var fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
                     if (fragment == null) {
-                        fragment = TransactionsFragment()
                         supportFragmentManager.beginTransaction()
                             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                            .add(R.id.fragmentContainer, fragment)
+                            .add(R.id.fragmentContainer, TransactionsFragment())
                             .commit()
                     } else {
                         supportFragmentManager.beginTransaction()
                             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                            .show(fragment)
+                            .replace(R.id.fragmentContainer, TransactionsFragment())
                             .commit()
                     }
                     true
@@ -86,15 +85,14 @@ class HomeActivity : AppCompatActivity() {
                     binding.fragmentContainer.visibility = View.VISIBLE
                     var fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
                     if (fragment == null) {
-                        fragment = RewardsFragment()
                         supportFragmentManager.beginTransaction()
                             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                            .add(R.id.fragmentContainer, fragment)
+                            .add(R.id.fragmentContainer, RewardsFragment())
                             .commit()
                     } else {
                         supportFragmentManager.beginTransaction()
                             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                            .show(fragment)
+                            .replace(R.id.fragmentContainer, RewardsFragment())
                             .commit()
                     }
                     true
