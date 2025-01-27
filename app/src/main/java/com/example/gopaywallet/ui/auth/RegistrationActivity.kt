@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.example.gopaywallet.MainActivity
 import com.example.gopaywallet.R
 import com.example.gopaywallet.databinding.ActivityRegistrationBinding
@@ -15,6 +16,7 @@ import com.example.gopaywallet.utils.showToast
 import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.ui.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegistrationActivity : AppCompatActivity() {
@@ -52,6 +54,30 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
 
+        lifecycleScope.launch {
+            viewModel.registrationState.collect { state ->
+                when (state) {
+                    is RegistrationState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.btnRegister.isEnabled = false
+                    }
+                    is RegistrationState.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.btnRegister.isEnabled = true
+                    }
+                    is RegistrationState.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.btnRegister.isEnabled = true
+                        showToast(state.message)
+                    }
+                    is RegistrationState.Initial -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.btnRegister.isEnabled = true
+                    }
+                }
+            }
+        }
+
         loginViewModel.loginResult.observe(this) { result ->
             when (result) {
                 is LoginResult.Success -> {
@@ -65,11 +91,6 @@ class RegistrationActivity : AppCompatActivity() {
                     showToast(result.message)
                 }
             }
-        }
-
-        viewModel.isLoading.observe(this) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            binding.btnRegister.isEnabled = !isLoading
         }
     }
 

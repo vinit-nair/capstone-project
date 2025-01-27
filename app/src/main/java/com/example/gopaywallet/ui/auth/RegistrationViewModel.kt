@@ -6,9 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gopaywallet.data.model.User
 import com.example.gopaywallet.data.repository.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-class RegistrationViewModel(private val userRepository: UserRepository) : ViewModel() {
+@HiltViewModel
+class RegistrationViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
 
     private val _registrationResult = MutableLiveData<RegistrationResult>()
     val registrationResult: LiveData<RegistrationResult> = _registrationResult
@@ -21,6 +26,9 @@ class RegistrationViewModel(private val userRepository: UserRepository) : ViewMo
     val phoneNumber = MutableLiveData<String>()
     val password = MutableLiveData<String>()
     val confirmPassword = MutableLiveData<String>()
+
+    private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.Initial)
+    val registrationState = _registrationState.asStateFlow()
 
     fun register() {
         val fullNameValue = fullName.value
@@ -42,6 +50,7 @@ class RegistrationViewModel(private val userRepository: UserRepository) : ViewMo
 
         _isLoading.value = true
         viewModelScope.launch {
+            _registrationState.value = RegistrationState.Loading
             try {
                 val user = userRepository.register(
                     fullNameValue,
@@ -50,8 +59,10 @@ class RegistrationViewModel(private val userRepository: UserRepository) : ViewMo
                     passwordValue
                 )
                 _registrationResult.value = RegistrationResult.Success(user)
+                _registrationState.value = RegistrationState.Success
             } catch (e: Exception) {
                 _registrationResult.value = RegistrationResult.Error(e.message ?: "Registration failed")
+                _registrationState.value = RegistrationState.Error(e.message ?: "Registration failed")
             } finally {
                 _isLoading.value = false
             }
@@ -62,4 +73,11 @@ class RegistrationViewModel(private val userRepository: UserRepository) : ViewMo
 sealed class RegistrationResult {
     data class Success(val user: User) : RegistrationResult()
     data class Error(val message: String) : RegistrationResult()
+}
+
+sealed class RegistrationState {
+    object Initial : RegistrationState()
+    object Loading : RegistrationState()
+    object Success : RegistrationState()
+    data class Error(val message: String) : RegistrationState()
 } 
