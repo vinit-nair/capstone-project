@@ -18,12 +18,12 @@ import com.example.gopaywallet.di.NetworkModule
 import com.example.gopaywallet.ui.home.TransactionAdapter
 import com.example.gopaywallet.utils.showToast
 import com.example.gopaywallet.ui.common.TransactionItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TransactionsFragment : Fragment() {
     private lateinit var binding: FragmentTransactionsBinding
-    private val viewModel: TransactionsViewModel by viewModels {
-        TransactionsViewModelFactory(SessionManager(requireContext()))
-    }
+    private val viewModel: TransactionsViewModel by viewModels()
     private val transactionAdapter = TransactionAdapter()
     private var isLoading = false
 
@@ -113,6 +113,10 @@ class TransactionsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         println("TransactionsFragment: onResume")
+        viewModel.refreshTransactions()
+    }
+
+    fun refreshTransactions() {
         viewModel.refreshTransactions()
     }
 } 

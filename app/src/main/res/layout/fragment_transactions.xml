@@ -49,7 +49,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:text="@string/new_transaction"
-            app:icon="@drawable/gopay_logo" />
+            app:icon="@mipmap/ic_bank_transfer_256x204" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout> 

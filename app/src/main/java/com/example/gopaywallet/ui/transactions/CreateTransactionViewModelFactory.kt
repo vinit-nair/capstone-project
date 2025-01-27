@@ -6,6 +6,7 @@ import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.data.repository.TransactionRepository
 import com.example.gopaywallet.di.NetworkModule
 
+/*
 class CreateTransactionViewModelFactory(
     private val sessionManager: SessionManager
 ) : ViewModelProvider.Factory {
@@ -21,4 +22,4 @@ class CreateTransactionViewModelFactory(
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
-} 
+} */

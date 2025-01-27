@@ -15,14 +15,14 @@ import com.example.gopaywallet.utils.showToast
 import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.ui.auth.LoginActivity
 import com.example.gopaywallet.ui.home.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreateTransactionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateTransactionBinding
     private lateinit var sessionManager: SessionManager
     
-    private val viewModel: CreateTransactionViewModel by viewModels {
-        CreateTransactionViewModelFactory(SessionManager(this))
-    }
+    private val viewModel: CreateTransactionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +40,10 @@ class CreateTransactionActivity : AppCompatActivity() {
         viewModel.transactionResult.observe(this) { result ->
             result.onSuccess { transaction ->
                 showToast("Transaction successful")
-                // Return to previous screen with refresh flag
-                setResult(RESULT_OK)
+                val intent = Intent().apply {
+                    putExtra("REFRESH_TRANSACTIONS", true)
+                }
+                setResult(RESULT_OK, intent)
                 finish()
             }.onFailure { exception ->
                 showToast(exception.message ?: "Transaction failed")

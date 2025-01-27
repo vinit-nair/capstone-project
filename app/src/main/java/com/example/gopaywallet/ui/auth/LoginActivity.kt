@@ -9,26 +9,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.gopaywallet.MainActivity
 import com.example.gopaywallet.R
-import com.example.gopaywallet.databinding.ActivityLoginBinding
-import com.example.gopaywallet.di.NetworkModule
 import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.data.repository.UserRepository
-import com.example.gopaywallet.data.repository.UserRepositoryImpl
+import com.example.gopaywallet.databinding.ActivityLoginBinding
 import com.example.gopaywallet.ui.home.HomeActivity
 import com.example.gopaywallet.utils.showToast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var sessionManager: SessionManager
     
-    private val viewModel: LoginViewModel by viewModels {
-        LoginViewModelFactory(
-            UserRepositoryImpl(NetworkModule.authApi)
-        )
-    }
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +67,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.tvForgotPassword.setOnClickListener {
-            // Navigate to forgot password screen
-            // TODO: Implement forgot password navigation
+            val email = viewModel.email.value ?: ""
+            startActivity(Intent(this, ForgotPasswordActivity::class.java).apply {
+                putExtra("email", email)  // Pass the email if already entered
+            })
         }
 
         binding.tvCreateAccount.setOnClickListener {
