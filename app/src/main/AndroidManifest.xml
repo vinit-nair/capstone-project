@@ -46,7 +46,7 @@
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".ui.transactions.CreateTransactionActivity"
             android:exported="false"
