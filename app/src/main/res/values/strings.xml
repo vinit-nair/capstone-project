@@ -35,4 +35,13 @@
     <string name="no_transactions">No transactions yet</string>
     <string name="new_transaction">New Transaction</string>
     <string name="rewards">Rewards</string>
+    <string name="select_currency">Select Currency</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="request_cash">Request Cash</string>
+    <string-array name="forex_array">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>INR</item>
+        <item>GBP</item>
+    </string-array>
 </resources>

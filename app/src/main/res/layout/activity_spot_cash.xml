@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SpotCashActivity">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/spotCashScroller"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Forex Selection -->
+                <TextView
+                    android:id="@+id/tvForex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Forex"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerForex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/forex_array"/>
+
+                <!-- Local Services Selection -->
+                <TextView
+                    android:id="@+id/tvServices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Services"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbMedicine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medicines"/>
+
+                <CheckBox
+                    android:id="@+id/cbCinema"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cinema"/>
+
+                <CheckBox
+                    android:id="@+id/cbMall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mall"/>
+
+                <CheckBox
+                    android:id="@+id/cbFoodAndBeverage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Food and Beverages"/>
+
+                <!-- Apply Button -->
+                <Button
+                    android:id="@+id/btnApply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Apply for Spot Cash"
+                    android:layout_marginTop="16dp"/>
+
+                <!-- Rewards Section -->
+                <TextView
+                    android:id="@+id/tvRewards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rewards"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvRewardPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Points: 0"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

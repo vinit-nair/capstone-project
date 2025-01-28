@@ -16,6 +16,7 @@ import com.example.gopaywallet.data.repository.TransactionRepository
 import com.example.gopaywallet.databinding.ActivityHomeBinding
 import com.example.gopaywallet.di.NetworkModule
 import com.example.gopaywallet.ui.rewards.RewardsFragment
+import com.example.gopaywallet.ui.spotcash.SpotCashActivity
 import com.example.gopaywallet.utils.showToast
 import com.example.gopaywallet.ui.transactions.CreateTransactionActivity
 import com.example.gopaywallet.ui.transactions.TransactionsFragment
@@ -119,7 +120,8 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.btnSpotCash.setOnClickListener {
-            // Handle spot cash
+            val intent = Intent(this, SpotCashActivity::class.java)
+            startActivity(intent)
         }
     }
 
