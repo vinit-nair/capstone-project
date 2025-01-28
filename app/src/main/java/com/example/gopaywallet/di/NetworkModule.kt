@@ -104,7 +104,7 @@ object NetworkModule {
         authApi: AuthApi,
         sessionManager: SessionManager
     ): UserRepository {
-        return UserRepositoryImpl(authApi)
+        return UserRepositoryImpl(authApi, sessionManager)
     }
 
     val rewardsApi: RewardsApi = provideRetrofit().create(RewardsApi::class.java)
