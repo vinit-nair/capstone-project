@@ -3,6 +3,7 @@ package com.example.gopaywallet.ui.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +16,7 @@ import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.data.repository.TransactionRepository
 import com.example.gopaywallet.databinding.ActivityHomeBinding
 import com.example.gopaywallet.di.NetworkModule
+import com.example.gopaywallet.ui.profile.ProfileFragment
 import com.example.gopaywallet.ui.rewards.RewardsFragment
 import com.example.gopaywallet.ui.spotcash.SpotCashActivity
 import com.example.gopaywallet.utils.showToast
@@ -45,6 +47,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = "GoPay Wallet"
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private fun setupBottomNavigation() {
@@ -99,7 +102,23 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_profile -> {
-                    // Handle profile navigation
+                    // Show Profile Fragment
+                    binding.contentContainer.visibility = View.GONE
+                    binding.fragmentContainer.visibility = View.VISIBLE
+
+                    val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                    if (fragment == null || fragment !is ProfileFragment) {
+                        supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                            .replace(R.id.fragmentContainer, ProfileFragment())
+                            .commit()
+                    }
+                    else {
+                        supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                            .show(fragment)
+                            .commit()
+                    }
                     true
                 }
                 else -> false
@@ -160,6 +179,25 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.action_settings -> {
                 showToast("Settings clicked")
+                true
+            }
+            R.id.action_profile -> {
+                // Navigate to Profile Fragment when clicked from the top menu
+                binding.contentContainer.visibility = View.GONE
+                binding.fragmentContainer.visibility = View.VISIBLE
+
+                val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                if (fragment == null || fragment !is ProfileFragment) {
+                    supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                        .replace(R.id.fragmentContainer, ProfileFragment())
+                        .commit()
+                } else {
+                    supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                        .show(fragment)
+                        .commit()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

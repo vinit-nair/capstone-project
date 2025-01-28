@@ -1,6 +1,7 @@
 package com.example.gopaywallet.data.repository
 
 import android.util.Log
+import com.example.gopaywallet.data.SessionManager
 import com.example.gopaywallet.data.api.AuthApi
 import com.example.gopaywallet.data.model.LoginRequest
 import com.example.gopaywallet.data.model.RegisterRequest
@@ -8,13 +9,22 @@ import com.example.gopaywallet.data.model.User
 import com.example.gopaywallet.data.model.LoginResponse
 import com.example.gopaywallet.data.model.ForgotPasswordRequest
 import com.example.gopaywallet.data.model.ForgotPasswordResponse
+import com.example.gopaywallet.data.model.ProfileUpdateRequest
 import com.example.gopaywallet.data.model.VerifyOtpRequest
 import com.example.gopaywallet.data.model.ResetPasswordRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepositoryImpl @Inject constructor(private val authApi: AuthApi) : UserRepository {
+//class UserRepositoryImpl @Inject constructor(private val authApi: AuthApi) : UserRepository {
+
+    class UserRepositoryImpl @Inject constructor(
+        private val authApi: AuthApi,
+        val sessionManager: SessionManager
+    ) : UserRepository {
+
+        var token = sessionManager.getAuthToken()
+        var userId = sessionManager.getUserId()
 
     override suspend fun login(email: String, password: String): LoginResponse {
         try {
@@ -52,14 +62,30 @@ class UserRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Use
         }
     }
 
-    override suspend fun getCurrentUser(): User {
-        // Implement getting current user from API
-        TODO("Not yet implemented")
+    override suspend fun getCurrentUser(): User? {
+        try {
+            Log.d("UserRepositoryImpl", "Fetching user details")
+            val response = token?.let { authApi.getCurrentUser(userId, it) }
+            return response
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "Error fetching user details", e)
+            throw e
+        }
     }
 
-    override suspend fun updateProfile(fullName: String, email: String, phoneNumber: String) {
-        // Implement profile update
-        TODO("Not yet implemented")
+    override suspend fun updateUserDetails(
+        updatedDetails: ProfileUpdateRequest
+    ): User {
+        return try {
+            authApi.updateProfile(
+                userId = userId,
+                update = updatedDetails,
+                token = token.toString()
+            )
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "Error fetching user details", e)
+            throw e
+        }
     }
 
     private fun saveAuthToken(token: String) {
